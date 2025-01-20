@@ -77,21 +77,13 @@
   ></script>
 
   <!-- JavaScript for form validation (optional, can be customized later) -->
-  <script>
-    document.getElementById('rssForm').addEventListener('submit', (event) => {
-      event.preventDefault();
-      const input = document.getElementById('rssInput');
-      const errorFeedback = document.getElementById('errorFeedback');
-      const successFeedback = document.getElementById('successFeedback');
-      if (!input.checkValidity()) {
-        errorFeedback.classList.remove('d-none');
-        successFeedback.classList.add('d-none');
-      } else {
-        errorFeedback.classList.add('d-none');
-        successFeedback.classList.remove('d-none');
-      }
-    });
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/yup@0.32.11/dist/yup.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="view.js"></script>
+  <script src="model.js"></script>
+  <script src="validator.js"></script>
+  <script src="services.js"></script>
 </body>
 </html>
+
 
