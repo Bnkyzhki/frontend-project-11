@@ -1,40 +1,38 @@
-
 export const showError = (message) => {
-  const errorElement = document.getElementById('errorFeedback');
-  const inputElement = document.getElementById('rssInput');
-  errorElement.textContent = message;
-  inputElement.classList.add('is-invalid');
+  const input = document.getElementById('rssInput');
+  const feedback = document.getElementById('feedback');
+  input.classList.add('is-invalid');
+  feedback.textContent = message;
+  feedback.classList.add('text-danger');
 };
 
 export const clearError = () => {
-  const inputElement = document.getElementById('rssInput');
-  const errorElement = document.getElementById('errorFeedback');
-  inputElement.classList.remove('is-invalid');
-  errorElement.textContent = '';
+  const input = document.getElementById('rssInput');
+  const feedback = document.getElementById('feedback');
+  input.classList.remove('is-invalid');
+  feedback.textContent = '';
+  feedback.classList.remove('text-danger');
 };
 
 export const showSuccess = () => {
-  const successElement = document.getElementById('successFeedback');
-  successElement.classList.remove('d-none');
+  const input = document.getElementById('rssInput');
+  const feedback = document.getElementById('feedback');
+  input.classList.add('is-valid');
+  feedback.textContent = 'RSS успешно добавлен!';
+  feedback.classList.add('text-success');
 };
 
 export const clearSuccess = () => {
-  const successElement = document.getElementById('successFeedback');
-  successElement.classList.add('d-none');
-};
-
-export const updateFeedList = (rssFeeds) => {
-  const feedListElement = document.getElementById('rss-list');
-  feedListElement.innerHTML = '';
-  rssFeeds.forEach((feed) => {
-    const li = document.createElement('li');
-    li.textContent = feed;
-    feedListElement.appendChild(li);
-  });
+  const input = document.getElementById('rssInput');
+  const feedback = document.getElementById('feedback');
+  input.classList.remove('is-valid');
+  feedback.textContent = '';
+  feedback.classList.remove('text-success');
 };
 
 export const clearInput = () => {
-  const inputElement = document.getElementById('rssInput');
-  inputElement.value = '';
-  inputElement.focus();
+  const input = document.getElementById('rssInput');
+  input.value = '';
+  input.focus(); // Устанавливаем фокус на инпут
 };
+

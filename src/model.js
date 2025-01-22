@@ -1,6 +1,6 @@
+export const rssFeeds = [];
 
-export let rssFeeds = [];
-
-export const addFeed = (feed) => {
-  rssFeeds.push(feed);
+export const addFeed = (url) => {
+  rssFeeds.push(url);
 };
+
