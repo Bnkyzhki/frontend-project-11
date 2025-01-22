@@ -1,55 +1,41 @@
-const path = require('path');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-module.exports = {
-  entry: './src/index.js', 
-  output: {
-    filename: 'bundle.js', 
-    path: path.resolve(__dirname, 'dist'), 
-    clean: true, 
-  },
-  mode: 'development', 
+export default {
+  mode: process.env.NODE_ENV || 'development',
   module: {
     rules: [
       {
-        test: /\.css$/i, 
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /\.(png|svg|jpg|jpeg|gif)$/i, 
-        type: 'asset/resource',
-      },
-      {
-        test: /\.js$/, 
+        test: /\.js$/,
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env'],
+          },
         },
+      },
+      { test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader'] },
+      {
+        test: /\.scss$/,
+        use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
+      },
+      {
+        test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        use: 'url-loader?limit=10000',
+      },
+      {
+        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+        use: 'file-loader',
       },
     ],
   },
-  devServer: {
-    static: './dist',
-    open: true, 
-    port: 8080, 
-  },
-};
-
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-module.exports = {
-  entry: './src/index.js',
-  output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    clean: true,
-  },
   plugins: [
     new HtmlWebpackPlugin({
-      template: './src/index.html', // Исходный HTML-шаблон
-      filename: 'index.html',      // Имя выходного HTML-файла
-      title: 'My App',             // Заголовок страницы
+      template: 'template.html',
     }),
   ],
-  mode: 'development',
+  output: {
+    clean: true,
+  },
 };
 
