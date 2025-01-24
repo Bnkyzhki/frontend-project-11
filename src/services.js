@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     validateRssUrl(rssUrl, rssFeeds)
       .then(() => {
-        clearError(); // Убираем ошибку
-        addFeed(rssUrl); // Добавляем фид в список
-        showSuccess(); // Показываем сообщение об успехе
-        clearInput(); // Очищаем поле ввода
+        clearError();
+        addFeed(rssUrl);
+        showSuccess();
+        clearInput();
       })
       .catch((error) => {
-        showError(error); // Показываем ошибку
-        clearSuccess(); // Скрываем успех
+        showError(error);
+        clearSuccess();
       });
   });
 });

@@ -1,15 +1,15 @@
-import * as Yup from 'yup';
+import * as yup from 'yup';
 
 export const validateRssUrl = (rssUrl, feeds) => {
-  const validationSchema = Yup.object({
-    rssUrl: Yup.string()
+  const validationSchema = yup.object({
+    rssUrl: yup.string()
       .url('Некорректный URL')
       .required('Введите URL')
       .notOneOf(feeds, 'Этот URL уже существует'),
   });
 
   return validationSchema.validate({ rssUrl })
-    .then(() => null) // Успешная валидация
-    .catch((error) => Promise.reject(error.message)); // Возвращаем сообщение об ошибке
+    .then(() => null)
+    .catch((error) => Promise.reject(error.message));
 };
 
