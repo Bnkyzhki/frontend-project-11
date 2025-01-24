@@ -1,5 +1,10 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import { fileURLToPath } from 'url';
 import path from 'path';
+
+// Получаем __dirname через import.meta.url
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default {
   mode: process.env.NODE_ENV || 'development',
@@ -75,5 +80,6 @@ export default {
     hot: true, // Включение HMR
   },
 };
+
 
 
