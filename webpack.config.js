@@ -1,9 +1,22 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import path from 'path';
 
 export default {
   mode: process.env.NODE_ENV || 'development',
+
+  // Точка входа
+  entry: './src/services.js',
+
+  // Выходные файлы
+  output: {
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
+    clean: true,
+  },
+
   module: {
     rules: [
+      // Обработка JavaScript (ES6+)
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -14,28 +27,53 @@ export default {
           },
         },
       },
-      { test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader'] },
+      // Обработка CSS
+      {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
+      },
+      // Обработка SCSS/SASS
       {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
       },
+      // Обработка шрифтов
       {
-        test: /\.woff2?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+        test: /\.woff2?$/,
         use: 'url-loader?limit=10000',
       },
       {
-        test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
+        test: /\.(ttf|eot|svg)$/,
         use: 'file-loader',
+      },
+      // Обработка изображений (если нужно)
+      {
+        test: /\.(png|jpg|jpeg|gif|ico)$/,
+        type: 'asset/resource',
       },
     ],
   },
+
   plugins: [
+    // Генерация HTML-файла
     new HtmlWebpackPlugin({
-      template: 'template.html',
+      template: 'index.html', // Укажите ваш HTML-шаблон
     }),
   ],
-  output: {
-    clean: true,
+
+  resolve: {
+    // Настройка расширений
+    extensions: ['.js'],
+  },
+
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    port: 8080,
+    open: true, // Автоматически открывать браузер
+    hot: true, // Включение HMR
   },
 };
+
 
