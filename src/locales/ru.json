@@ -1,0 +1,10 @@
+{
+    "errors": {
+      "url": "Некорректный URL",
+      "required": "Введите URL",
+      "notOneOf": "Этот URL уже существует"
+    },
+    "success": {
+      "rssAdded": "RSS успешно добавлен!"
+    }
+  }

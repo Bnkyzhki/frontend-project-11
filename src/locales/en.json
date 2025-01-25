@@ -1,0 +1,11 @@
+{
+    "errors": {
+      "url": "Invalid URL",
+      "required": "Please enter a URL",
+      "notOneOf": "This URL already exists"
+    },
+    "success": {
+      "rssAdded": "RSS successfully added!"
+    }
+  }
+  

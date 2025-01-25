@@ -1,9 +1,22 @@
-export const showError = (message) => {
+import i18next from 'i18next';
+
+const getElements = () => {
+  const input = document.getElementById('rssInput');
+  const errorFeedback = document.getElementById('errorFeedback');
+  const successFeedback = document.getElementById('successFeedback');
+  if (!input || !errorFeedback || !successFeedback) {
+    console.error('Не удалось найти один или несколько элементов в DOM');
+    return null;
+  }
+  return { input, errorFeedback, successFeedback };
+};
+
+export const showError = (messageKey) => {
   const input = document.getElementById('rssInput');
   const feedback = document.getElementById('errorFeedback');
   if (input && feedback) {
     input.classList.add('is-invalid');
-    feedback.textContent = message;
+    feedback.textContent = i18next.t(`errors.${messageKey}`);
     feedback.classList.remove('d-none');
   } else {
     console.error('Элементы с id "rssInput" или "errorFeedback" не найдены в DOM');
@@ -11,15 +24,13 @@ export const showError = (message) => {
 };
 
 export const clearError = () => {
-  const input = document.getElementById('rssInput');
-  const feedback = document.getElementById('errorFeedback');
-  if (input && feedback) {
-    input.classList.remove('is-invalid');
-    feedback.textContent = '';
-    feedback.classList.add('d-none');
-  } else {
-    console.error('Элементы с id "rssInput" или "errorFeedback" не найдены в DOM');
-  }
+  const elements = getElements();
+  if (!elements) return;
+
+  const { input, errorFeedback } = elements;
+  input.classList.remove('is-invalid');
+  errorFeedback.textContent = '';
+  errorFeedback.classList.add('d-none');
 };
 
 export const showSuccess = () => {
@@ -27,7 +38,7 @@ export const showSuccess = () => {
   const feedback = document.getElementById('successFeedback');
   if (input && feedback) {
     input.classList.add('is-valid');
-    feedback.textContent = 'RSS успешно добавлен!';
+    feedback.textContent = i18next.t('success.rssAdded');
     feedback.classList.remove('d-none');
   } else {
     console.error('Элементы с id "rssInput" или "successFeedback" не найдены в DOM');
@@ -35,24 +46,19 @@ export const showSuccess = () => {
 };
 
 export const clearSuccess = () => {
-  const input = document.getElementById('rssInput');
-  const feedback = document.getElementById('successFeedback');
-  if (input && feedback) {
-    input.classList.remove('is-valid');
-    feedback.textContent = '';
-    feedback.classList.add('d-none');
-  } else {
-    console.error('Элементы с id "rssInput" или "successFeedback" не найдены в DOM');
-  }
+  const elements = getElements();
+  if (!elements) return;
+
+  const { input, successFeedback } = elements;
+  input.classList.remove('is-valid');
+  successFeedback.textContent = '';
+  successFeedback.classList.add('d-none');
 };
 
 export const clearInput = () => {
-  const input = document.getElementById('rssInput');
-  if (input) {
-    input.value = '';
-    input.focus();
-  } else {
-    console.error('Элемент с id "rssInput" не найден в DOM');
-  }
-};
+  const { input } = getElements() || {};
+  if (!input) return;
 
+  input.value = '';
+  input.focus();
+};
