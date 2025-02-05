@@ -1,7 +1,9 @@
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import { createRequire } from 'module';
 
+const require = createRequire(import.meta.url);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,10 +11,8 @@ const __dirname = path.dirname(__filename);
 export default {
   mode: process.env.NODE_ENV || 'development',
 
-  
   entry: './src/services.js',
 
-  
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js',
@@ -21,7 +21,6 @@ export default {
 
   module: {
     rules: [
-      
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -32,12 +31,10 @@ export default {
           },
         },
       },
-      
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
-      
       {
         test: /\.scss$/,
         use: ['style-loader', 'css-loader', 'sass-loader', 'postcss-loader'],
@@ -58,14 +55,24 @@ export default {
   },
 
   plugins: [
-    
     new HtmlWebpackPlugin({
-      template: 'index.html', 
+      template: 'index.html',
     }),
   ],
 
   resolve: {
-    extensions: ['.js'],
+    extensions: ['.js', '.json'],
+    fallback: {
+      "url": require.resolve("url/"),
+      "http": require.resolve("stream-http"),
+      "https": require.resolve("https-browserify"),
+      "stream": require.resolve("stream-browserify"),
+      "assert": require.resolve("assert/"),
+      "zlib": require.resolve("browserify-zlib"),
+      "util": require.resolve("util/"),
+      "buffer": require.resolve("buffer/"),
+      "fs": false,
+    },
   },
 
   devServer: {
@@ -77,6 +84,7 @@ export default {
     hot: true,
   },
 };
+
 
 
 

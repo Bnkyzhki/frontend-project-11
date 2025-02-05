@@ -1,10 +1,12 @@
 {
-    "errors": {
-      "url": "Некорректный URL",
-      "required": "Введите URL",
-      "notOneOf": "Этот URL уже существует"
-    },
-    "success": {
-      "rssAdded": "RSS успешно добавлен!"
-    }
+  "errors": {
+    "url": "Некорректный URL",
+    "required": "Введите URL",
+    "notOneOf": "Этот URL уже существует",
+    "rssLoadError": "Ошибка при загрузке или парсинге RSS",
+    "feedAlreadyAdded": "Этот RSS-фид уже добавлен"
+  },
+  "success": {
+    "rssAdded": "RSS успешно добавлен!"
   }
+}

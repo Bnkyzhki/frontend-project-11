@@ -24,10 +24,20 @@
   },
   "dependencies": {
     "@popperjs/core": "^2.11.8",
+    "assert": "^2.1.0",
+    "axios": "^1.7.9",
     "bootstrap": "^5.3.3",
+    "browserify-zlib": "^0.2.0",
+    "buffer": "^6.0.3",
     "formik": "^2.4.6",
+    "https-browserify": "^1.0.0",
     "i18next": "^24.2.1",
     "on-change": "^5.0.1",
+    "process": "^0.11.10",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.4",
+    "util": "^0.12.5",
     "yup": "^1.6.1"
   },
   "scripts": {

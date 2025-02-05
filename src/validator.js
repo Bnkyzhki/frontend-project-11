@@ -1,14 +1,13 @@
 import * as Yup from 'yup';
 
-export const validateRssUrl = (url, rssFeeds) => {
+export const validateRssUrl = (url, addedUrls) => {
   const schema = Yup.string()
     .required()
     .url()
-    .notOneOf(rssFeeds);
+    .notOneOf(addedUrls, 'feedAlreadyAdded');
 
-  return schema.validate(url)
-    .catch((err) => {
-      throw err.message; 
-    });
+  return schema.validate(url).catch((err) => {
+    throw new Error(err.message);
+  });
 };
 
