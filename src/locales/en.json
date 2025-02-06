@@ -1,13 +1,17 @@
 {
   "errors": {
-    "url": "Invalid URL",
-    "required": "Please enter a URL",
-    "notOneOf": "This URL already exists",
-    "rssLoadError": "Error loading or parsing RSS",
-    "feedAlreadyAdded": "This RSS feed is already added"
+    "url": "Please provide a valid URL",
+    "required": "This field can't be empty",
+    "notOneOf": "This RSS feed is already added",
+    "rssLoadError": "This resource doesn’t contain a valid RSS feed",
+    "feedAlreadyAdded": "This RSS feed is already in the list",
+    "networkError": "Network error"
   },
   "success": {
-    "rssAdded": "RSS successfully added!"
+    "rssAdded": "RSS feed successfully added"
+  },
+  "buttons": {
+    "preview": "Preview"
   }
 }
 

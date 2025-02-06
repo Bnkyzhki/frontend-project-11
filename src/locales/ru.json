@@ -1,12 +1,16 @@
 {
   "errors": {
-    "url": "Некорректный URL",
-    "required": "Введите URL",
-    "notOneOf": "Этот URL уже существует",
-    "rssLoadError": "Ошибка при загрузке или парсинге RSS",
-    "feedAlreadyAdded": "Этот RSS-фид уже добавлен"
+    "url": "Ссылка должна быть валидным URL",
+    "required": "Поле не должно быть пустым",
+    "notOneOf": "RSS уже существует",
+    "rssLoadError": "Ресурс не содержит валидный RSS",
+    "feedAlreadyAdded": "Этот RSS-фид уже добавлен",
+    "networkError": "Ошибка сети"
   },
   "success": {
-    "rssAdded": "RSS успешно добавлен!"
+    "rssAdded": "RSS успешно загружен"
+  },
+  "buttons": {
+    "preview": "Просмотр"
   }
 }

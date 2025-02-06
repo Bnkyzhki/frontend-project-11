@@ -9,27 +9,17 @@ import parseRSS from './parseRSS.js';
 const viewedPosts = new Set();
 
 const checkNewPosts = () => {
-  const feeds = getFeeds();
-  feeds.forEach(({ url }) => {
+  getFeeds().forEach(({ url }) => {
     fetchRss(url)
       .then((xmlData) => {
         const { posts } = parseRSS(xmlData);
-
-        posts.forEach(post => {
-          if (!getPosts().some(existingPost => existingPost.link === post.link)) {
-            addPosts([post]);
-          }
-        });
-
+        addPosts(posts);
         renderPosts(getPosts(), viewedPosts);
       })
-      .catch((error) => console.error(`Ошибка при проверке потока ${url}: ${error.message}`));
+      .catch(() => {});
   });
-
   setTimeout(checkNewPosts, 5000);
 };
-
-checkNewPosts();
 
 document.addEventListener('DOMContentLoaded', async () => {
   await initI18n();
@@ -38,29 +28,23 @@ document.addEventListener('DOMContentLoaded', async () => {
   const form = document.getElementById('rssForm');
   form.addEventListener('submit', (event) => {
     event.preventDefault();
-
     const rssUrl = document.getElementById('rssInput').value;
 
     validateRssUrl(rssUrl, getFeeds().map((feed) => feed.url))
       .then(() => {
         clearError();
-
         if (isFeedAlreadyAdded(rssUrl)) {
           showError('feedAlreadyAdded');
           return;
         }
-
         return fetchRss(rssUrl)
           .then((xmlData) => {
             const { feed, posts } = parseRSS(xmlData);
-
             addFeed({ ...feed, url: rssUrl });
             addPosts(posts);
-
             renderFeeds(getFeeds());
             renderPosts(getPosts(), viewedPosts);
             toggleFeedsAndPostsVisibility(true);
-
             showSuccess();
             clearInput();
           });
@@ -69,5 +53,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         showError(error.message || 'rssLoadError');
       });
   });
+  checkNewPosts();
 });
 

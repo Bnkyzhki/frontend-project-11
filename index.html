@@ -50,7 +50,7 @@
     <!-- Header -->
     <header class="text-center mb-4">
       <h1 class="display-4 fw-bold text-light">RSS Агрегатор</h1>
-      <p class="text-light">Начните читать RSS сегодня! Это легко, это бесплатно.</p>
+      <p class="text-light">Начните читать RSS сегодня! Это легко, это красиво.</p>
     </header>
 
     <!-- Form Section -->
@@ -67,16 +67,25 @@
           >
           <button class="btn btn-primary" type="submit">Добавить</button>
         </div>
-        <div class="feedback-message mt-2 text-danger d-none" id="errorFeedback">
+        <div 
+          class="feedback-message mt-2 text-danger d-none" 
+          id="errorFeedback" 
+          role="status" 
+          aria-live="polite">
           Ссылка должна быть валидным URL.
         </div>
-        <div class="feedback-message mt-2 text-success d-none" id="successFeedback">
-          RSS успешно добавлен.
+        <div 
+          class="feedback-message mt-2 text-success d-none" 
+          id="successFeedback" 
+          role="status" 
+          aria-live="polite">
+          RSS успешно загружен.
         </div>
       </form>
     </section>
   </section>
 
+  <div class="container">
     <!-- Фиды и Посты -->
     <div class="row mt-4">
       <!-- Фиды -->

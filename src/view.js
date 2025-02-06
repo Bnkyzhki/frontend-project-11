@@ -58,7 +58,7 @@ export const renderPosts = (posts, viewedPosts) => {
     return `
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <a href="${link}" target="_blank" class="${isViewed ? 'fw-normal' : 'fw-bold'}" data-id="${id}">${title}</a>
-        <button class="btn btn-outline-primary btn-sm preview-btn" data-id="${id}" data-title="${title}" data-description="${description ?? ''}">Просмотр</button>
+        <button class="btn btn-outline-primary btn-sm preview-btn" data-id="${id}" data-title="${title}" data-description="${description ?? ''}">${i18next.t('buttons.preview')}</button>
       </li>
     `;
   }).join('');

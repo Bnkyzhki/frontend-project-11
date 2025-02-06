@@ -1,6 +1,6 @@
 export const state = {
   feeds: [], // [{ id, title, description, url }]
-  posts: [], // [{ id, feedId, title, link }]
+  posts: [], // [{ id, feedId, title, link, id }]
 };
 
 export const addFeed = (feed) => {
@@ -8,7 +8,14 @@ export const addFeed = (feed) => {
 };
 
 export const addPosts = (posts) => {
-  state.posts.push(...posts);
+  const existingPostLinks = state.posts.map(post => post.link);
+  const newPosts = posts
+    .filter(post => !existingPostLinks.includes(post.link))
+    .map((post, index) => ({
+      id: `post-${Date.now()}-${index}`,
+      ...post,
+    }));
+  state.posts.push(...newPosts);
 };
 
 export const isFeedAlreadyAdded = (url) => {
