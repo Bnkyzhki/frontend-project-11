@@ -4,7 +4,7 @@
     "required": "This field can't be empty",
     "notOneOf": "This RSS feed is already added",
     "rssLoadError": "This resource doesn’t contain a valid RSS feed",
-    "feedAlreadyAdded": "This RSS feed is already in the list",
+    "feedAlreadyAdded": "This RSS already exists",
     "networkError": "Network error"
   },
   "success": {

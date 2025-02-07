@@ -4,7 +4,7 @@
     "required": "Поле не должно быть пустым",
     "notOneOf": "RSS уже существует",
     "rssLoadError": "Ресурс не содержит валидный RSS",
-    "feedAlreadyAdded": "Этот RSS-фид уже добавлен",
+    "feedAlreadyAdded": "RSS уже существует",
     "networkError": "Ошибка сети"
   },
   "success": {
