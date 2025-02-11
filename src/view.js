@@ -54,12 +54,12 @@ export const renderFeeds = (feeds) => {
 
 export const renderPosts = (posts, viewedPosts) => {
   const { postContainer } = getElements();
-  postContainer.innerHTML = posts.map(({ title, link, id }) => {
+  postContainer.innerHTML = posts.map(({ title, link, id, description }) => {
     const isViewed = viewedPosts.has(id);
     return `
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <a href="${link}" target="_blank" class="${isViewed ? 'fw-normal' : 'fw-bold'}" data-id="${id}">${title}</a>
-        <button class="btn btn-outline-primary btn-sm preview-btn" data-id="${id}">${i18next.t('buttons.preview')}</button>
+        <button class="btn btn-outline-primary btn-sm preview-btn" data-id="${id}" data-description="${description}">${i18next.t('buttons.preview')}</button>
       </li>
     `;
   }).join('');
@@ -67,15 +67,13 @@ export const renderPosts = (posts, viewedPosts) => {
 
 document.addEventListener('click', (event) => {
   if (event.target.classList.contains('preview-btn')) {
-    const { id } = event.target.dataset;
+    const { id, description } = event.target.dataset;
 
     markPostAsViewed(id);
 
     const { modalTitle, modalBody, modal } = getElements();
-    const post = state.posts.find((p) => p.id === id);
-    
-    modalTitle.textContent = post.title;
-    modalBody.textContent = post.description || ' ';
+    modalTitle.textContent = event.target.closest('li').querySelector('a').textContent;
+    modalBody.textContent = description || ' ';
     
     modal.show();
   }
