@@ -1,24 +1,47 @@
 import initI18n from './i18n.js';
 import setYupLocale from './yupConfig.js';
-import { showError, clearError, showSuccess, clearInput, renderFeeds, renderPosts, toggleFeedsAndPostsVisibility } from './view.js';
-import { addFeed, addPosts, isFeedAlreadyAdded, getFeeds, getPosts } from './model.js';
+import { 
+  showError, clearError, showSuccess, clearInput, 
+  toggleFeedsAndPostsVisibility, renderFeeds, renderPosts,
+} from './view.js';
+import { 
+  addFeed, addPosts, isFeedAlreadyAdded, getFeeds, 
+  getPosts, markPostAsViewed, getViewedPosts,
+} from './model.js';
 import { validateRssUrl } from './validator.js';
 import { fetchRss } from './fetchRss.js';
 import parseRSS from './parseRSS.js';
-
-const viewedPosts = new Set();
+import { v4 as uuidv4 } from 'uuid';
 
 const checkNewPosts = () => {
-  getFeeds().forEach(({ url }) => {
+  const feedRequests = getFeeds().map(({ url, id: feedId }) => 
     fetchRss(url)
       .then((xmlData) => {
         const { posts } = parseRSS(xmlData);
-        addPosts(posts);
-        renderPosts(getPosts(), viewedPosts);
+        const existingPosts = getPosts();
+        const existingPostLinks = new Set(existingPosts.map(({ link }) => link));
+
+        const newPosts = posts
+          .filter(({ link }) => !existingPostLinks.has(link))
+          .map((post) => ({
+            id: uuidv4(),
+            feedId,
+            ...post,
+          }));
+
+        if (newPosts.length > 0) {
+          addPosts(newPosts);
+          renderPosts(getPosts(), getViewedPosts());
+        }
       })
-      .catch(() => {});
+      .catch((error) => {
+        console.error(`Ошибка при обновлении постов для ${url}:`, error);
+      })
+  );
+
+  Promise.all(feedRequests).finally(() => {
+    setTimeout(checkNewPosts, 5000);
   });
-  setTimeout(checkNewPosts, 5000);
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -40,10 +63,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         return fetchRss(rssUrl)
           .then((xmlData) => {
             const { feed, posts } = parseRSS(xmlData);
-            addFeed({ ...feed, url: rssUrl });
-            addPosts(posts);
+            const feedWithId = { ...feed, id: uuidv4(), url: rssUrl };
+            const postsWithId = posts.map((post) => ({
+              id: uuidv4(),
+              feedId: feedWithId.id,
+              ...post,
+            }));
+
+            addFeed(feedWithId);
+            addPosts(postsWithId);
+
             renderFeeds(getFeeds());
-            renderPosts(getPosts(), viewedPosts);
+            renderPosts(getPosts(), getViewedPosts());
+
             toggleFeedsAndPostsVisibility(true);
             showSuccess();
             clearInput();
@@ -53,6 +85,20 @@ document.addEventListener('DOMContentLoaded', async () => {
         showError(error.message || 'rssLoadError');
       });
   });
+
+  document.addEventListener('click', (event) => {
+    const postLink = event.target.closest('.post-link');
+    if (postLink) {
+      const postId = postLink.dataset.postId;
+      markPostAsViewed(postId);
+    }
+  });
+
   checkNewPosts();
 });
+
+
+
+
+
 

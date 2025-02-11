@@ -1,11 +1,13 @@
 import i18next from 'i18next';
+import { markPostAsViewed } from './model.js';
+import { state } from './model.js';
 
 const getElements = () => {
   const input = document.getElementById('rssInput');
   const errorFeedback = document.getElementById('errorFeedback');
   const successFeedback = document.getElementById('successFeedback');
-  const feedContainer = document.getElementById('feeds');
-  const postContainer = document.getElementById('posts');
+  const feedContainer = document.getElementById('feedsContainer');
+  const postContainer = document.getElementById('postsContainer');
   const modalTitle = document.getElementById('postModalLabel');
   const modalBody = document.getElementById('postModalBody');
   const modal = new bootstrap.Modal(document.getElementById('postModal'));
@@ -51,51 +53,43 @@ export const renderFeeds = (feeds) => {
 };
 
 export const renderPosts = (posts, viewedPosts) => {
-  const { postContainer, modalTitle, modalBody, modal } = getElements();
-
-  postContainer.innerHTML = posts.map(({ title, link, description, id }) => {
+  const { postContainer } = getElements();
+  postContainer.innerHTML = posts.map(({ title, link, id }) => {
     const isViewed = viewedPosts.has(id);
     return `
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <a href="${link}" target="_blank" class="${isViewed ? 'fw-normal' : 'fw-bold'}" data-id="${id}">${title}</a>
-        <button class="btn btn-outline-primary btn-sm preview-btn" data-id="${id}" data-title="${title}" data-description="${description ?? ''}">${i18next.t('buttons.preview')}</button>
+        <button class="btn btn-outline-primary btn-sm preview-btn" data-id="${id}">${i18next.t('buttons.preview')}</button>
       </li>
     `;
   }).join('');
-
-  postContainer.addEventListener('click', (event) => {
-    if (event.target.classList.contains('preview-btn')) {
-      const { id, title, description } = event.target.dataset;
-
-      viewedPosts.add(id);
-      modalTitle.textContent = title;
-      modalBody.textContent = description || ' ';
-
-      const modalInstance = bootstrap.Modal.getInstance(modal._element) || modal;
-      modalInstance.show();
-
-      // модальник не снимается сам по себе, пришлось добавть снятие врукопашную,хех
-      modalInstance._element.addEventListener('hidden.bs.modal', () => {
-        const backdrop = document.querySelector('.modal-backdrop');
-        if (backdrop) {
-          backdrop.remove();
-        }
-      });
-    }
-  });
 };
 
-export const toggleFeedsAndPostsVisibility = (isVisible) => {
-  const { feedContainer, postContainer } = getElements();
-  if (isVisible) {
-    feedContainer.classList.remove('d-none');
-    postContainer.classList.remove('d-none');
-  } else {
-    feedContainer.classList.add('d-none');
-    postContainer.classList.add('d-none');
+document.addEventListener('click', (event) => {
+  if (event.target.classList.contains('preview-btn')) {
+    const { id } = event.target.dataset;
+
+    markPostAsViewed(id);
+
+    const { modalTitle, modalBody, modal } = getElements();
+    const post = state.posts.find((p) => p.id === id);
+    
+    modalTitle.textContent = post.title;
+    modalBody.textContent = post.description || ' ';
+    
+    modal.show();
   }
+});
+
+export const toggleFeedsAndPostsVisibility = (isVisible) => {
+  const feedsSection = document.getElementById('feeds');
+  const postsSection = document.getElementById('posts');
+
+  feedsSection.classList.toggle('d-none', !isVisible);
+  postsSection.classList.toggle('d-none', !isVisible);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
   toggleFeedsAndPostsVisibility(false);
 });
+

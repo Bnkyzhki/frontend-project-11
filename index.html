@@ -61,7 +61,7 @@
             type="url"
             class="form-control"
             id="rssInput"
-            placeholder="Введите ссылку RSS"
+            placeholder="ссылка RSS"
             aria-label="url"
             required
           >
@@ -88,23 +88,18 @@
   <div class="container">
     <!-- Фиды и Посты -->
     <div class="row mt-4">
-      <!-- Фиды -->
-      <section class="col-md-6" id="feeds">
-        <h2 class="fw-bold">Фиды</h2>
-        <div class="card bg-dark text-light">
-          <div class="card-body">
-            <ul class="list-group list-group-flush" id="feedsContainer"></ul>
-          </div>
-        </div>
-      </section>
-      
       <!-- Посты -->
       <section class="col-md-6" id="posts">
         <h2 class="fw-bold">Посты</h2>
-        <div class="card bg-dark text-light">
-          <div class="card-body">
-            <ul class="list-group list-group-flush" id="postsContainer"></ul>
-          </div>
+        <div class="card-body">
+          <ul class="list-group list-group-flush" id="postsContainer"></ul>
+        </div>
+      </section>
+      <!-- Фиды -->
+      <section class="col-md-6" id="feeds">
+        <h2 class="fw-bold">Фиды</h2>
+        <div class="card-body">
+          <ul class="list-group list-group-flush" id="feedsContainer"></ul>
         </div>
       </section>
     </div>
