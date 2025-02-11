@@ -21,6 +21,11 @@ export const addPosts = (posts) => {
 
 export const markPostAsViewed = (postId) => {
   state.viewedPosts.add(postId);
+  const postElement = document.querySelector(`a[data-id="${postId}"]`);
+  if (postElement) {
+    postElement.classList.remove('fw-bold');
+    postElement.classList.add('fw-normal');
+  }
 };
 
 export const isFeedAlreadyAdded = (url) => state.feeds.some(feed => feed.url === url);
