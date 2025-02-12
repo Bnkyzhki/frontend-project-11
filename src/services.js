@@ -19,8 +19,8 @@ import {
   markPostAsViewed,
   getViewedPosts,
 } from './model.js';
-import { validateRssUrl } from './validator.js';
-import { fetchRss } from './fetchRss.js';
+import validateRssUrl from './validator.js';
+import fetchRss from './fetchRss.js';
 import parseRSS from './parseRSS.js';
 
 const checkNewPosts = () => {
