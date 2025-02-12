@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     event.preventDefault();
     const rssUrl = document.getElementById('rssInput').value;
 
-    return validateRssUrl(
+    validateRssUrl(
       rssUrl,
       getFeeds().map((feed) => feed.url),
     )
@@ -73,10 +73,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         clearError();
         if (isFeedAlreadyAdded(rssUrl)) {
           showError('feedAlreadyAdded');
-          return Promise.resolve();
+          return;
         }
 
-        return fetchRss(rssUrl).then((xmlData) => {
+        fetchRss(rssUrl).then((xmlData) => {
           const { feed, posts } = parseRSS(xmlData);
           const feedWithId = { ...feed, id: uuid.v4(), url: rssUrl };
           const postsWithId = posts.map((post) => ({
