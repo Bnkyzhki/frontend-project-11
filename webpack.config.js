@@ -81,6 +81,6 @@ export default {
     },
     port: 8080,
     open: true,
-    hot: true,
+    hot: false,
   },
 };
