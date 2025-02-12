@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-export const fetchRss = (url) => {
+const fetchRss = (url) => {
   const proxyUrl = `https://allorigins.hexlet.app/get?disableCache=true&url=${encodeURIComponent(url)}`;
 
   return axios
@@ -8,16 +8,18 @@ export const fetchRss = (url) => {
     .then((response) => {
       const { contents } = response.data;
 
-      if (!contents || contents.trim() === "") {
-        throw new Error("rssLoadError");
+      if (!contents || contents.trim() === '') {
+        throw new Error('rssLoadError');
       }
 
       return contents;
     })
     .catch((error) => {
       if (error.response) {
-        throw new Error("rssLoadError");
+        throw new Error('rssLoadError');
       }
-      throw new Error("networkError");
+      throw new Error('networkError');
     });
 };
+
+export default fetchRss;

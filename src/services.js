@@ -1,6 +1,6 @@
-import { v4 as uuidv4 } from "uuid";
-import initI18n from "./i18n.js";
-import setYupLocale from "./yupConfig.js";
+import * as uuid from 'uuid';
+import initI18n from './i18n.js';
+import setYupLocale from './yupConfig.js';
 import {
   showError,
   clearError,
@@ -9,7 +9,7 @@ import {
   toggleFeedsAndPostsVisibility,
   renderFeeds,
   renderPosts,
-} from "./view.js";
+} from './view.js';
 import {
   addFeed,
   addPosts,
@@ -18,10 +18,10 @@ import {
   getPosts,
   markPostAsViewed,
   getViewedPosts,
-} from "./model.js";
-import { validateRssUrl } from "./validator.js";
-import { fetchRss } from "./fetchRss.js";
-import parseRSS from "./parseRSS.js";
+} from './model.js';
+import { validateRssUrl } from './validator.js';
+import { fetchRss } from './fetchRss.js';
+import parseRSS from './parseRSS.js';
 
 const checkNewPosts = () => {
   const feedRequests = getFeeds().map(({ url, id: feedId }) =>
@@ -36,7 +36,7 @@ const checkNewPosts = () => {
         const newPosts = posts
           .filter(({ link }) => !existingPostLinks.has(link))
           .map((post) => ({
-            id: uuidv4(),
+            id: uuid.v4(),
             feedId,
             ...post,
           }));
@@ -56,30 +56,31 @@ const checkNewPosts = () => {
   });
 };
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener('DOMContentLoaded', async () => {
   await initI18n();
   setYupLocale();
 
-  const form = document.getElementById("rssForm");
-  form.addEventListener("submit", (event) => {
+  const form = document.getElementById('rssForm');
+  form.addEventListener('submit', (event) => {
     event.preventDefault();
-    const rssUrl = document.getElementById("rssInput").value;
+    const rssUrl = document.getElementById('rssInput').value;
 
-    validateRssUrl(
+    return validateRssUrl(
       rssUrl,
       getFeeds().map((feed) => feed.url),
     )
       .then(() => {
         clearError();
         if (isFeedAlreadyAdded(rssUrl)) {
-          showError("feedAlreadyAdded");
-          return;
+          showError('feedAlreadyAdded');
+          return Promise.resolve();
         }
+
         return fetchRss(rssUrl).then((xmlData) => {
           const { feed, posts } = parseRSS(xmlData);
-          const feedWithId = { ...feed, id: uuidv4(), url: rssUrl };
+          const feedWithId = { ...feed, id: uuid.v4(), url: rssUrl };
           const postsWithId = posts.map((post) => ({
-            id: uuidv4(),
+            id: uuid.v4(),
             feedId: feedWithId.id,
             ...post,
           }));
@@ -96,12 +97,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
       })
       .catch((error) => {
-        showError(error.message || "rssLoadError");
+        showError(error.message || 'rssLoadError');
       });
   });
 
-  document.addEventListener("click", (event) => {
-    const postLink = event.target.closest(".post-link");
+  document.addEventListener('click', (event) => {
+    const postLink = event.target.closest('.post-link');
     if (postLink) {
       const { postId } = postLink.dataset;
       markPostAsViewed(postId);

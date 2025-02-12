@@ -1,8 +1,8 @@
-import globals from "globals";
-import pluginJs from "@eslint/js";
-import pluginImport from "eslint-plugin-import";
-import pluginPrettier from "eslint-plugin-prettier";
-import configPrettier from "eslint-config-prettier";
+import globals from 'globals';
+import pluginJs from '@eslint/js';
+import pluginImport from 'eslint-plugin-import';
+import pluginPrettier from 'eslint-plugin-prettier';
+import configPrettier from 'eslint-config-prettier';
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
@@ -18,25 +18,25 @@ export default [
       prettier: pluginPrettier,
     },
     rules: {
-      quotes: ["error", "single"],
-      "no-trailing-spaces": "error",
-      "eol-last": ["error", "always"],
-      "no-multiple-empty-lines": ["error", { max: 1 }],
-      "object-curly-spacing": ["error", "always"],
-      "comma-dangle": ["error", "always-multiline"],
-      "arrow-parens": ["error", "always"],
-      "max-len": ["error", { code: 100 }],
-      "no-use-before-define": "error",
-      "consistent-return": "error",
-      "prefer-destructuring": "error",
-      "no-undef": "error",
+      quotes: ['error', 'single'],
+      'prettier/prettier': ['error', { singleQuote: true }], // ✅ Фикс для конфликта
 
-      "import/extensions": ["error", "never"],
-      "import/prefer-default-export": "error",
-      "import/order": "error",
-      "import/no-duplicates": "error",
+      'no-trailing-spaces': 'error',
+      'eol-last': ['error', 'always'],
+      'no-multiple-empty-lines': ['error', { max: 1 }],
+      'object-curly-spacing': ['error', 'always'],
+      'comma-dangle': ['error', 'always-multiline'],
+      'arrow-parens': ['error', 'always'],
+      'max-len': ['error', { code: 100 }],
+      'no-use-before-define': 'error',
+      'consistent-return': 'error',
+      'prefer-destructuring': 'error',
+      'no-undef': 'error',
 
-      "prettier/prettier": "error",
+      'import/extensions': ['error', 'never'],
+      'import/prefer-default-export': 'error',
+      'import/order': 'error',
+      'import/no-duplicates': 'error',
     },
   },
   configPrettier,

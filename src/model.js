@@ -1,4 +1,4 @@
-import onChange from "on-change";
+import onChange from 'on-change';
 
 export const state = onChange(
   {
@@ -10,12 +10,10 @@ export const state = onChange(
 );
 
 export const addFeed = (feed) => {
-  console.log("Adding feed:", feed);
   state.feeds.push(feed);
 };
 
 export const addPosts = (posts) => {
-  console.log("Adding new posts:", newPosts);
   const existingPostLinks = state.posts.map((post) => post.link);
   const newPosts = posts.filter(
     (post) => !existingPostLinks.includes(post.link),
@@ -27,8 +25,8 @@ export const markPostAsViewed = (postId) => {
   state.viewedPosts.add(postId);
   const postElement = document.querySelector(`a[data-id="${postId}"]`);
   if (postElement) {
-    postElement.classList.remove("fw-bold");
-    postElement.classList.add("fw-normal");
+    postElement.classList.remove('fw-bold');
+    postElement.classList.add('fw-normal');
   }
 };
 
