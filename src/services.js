@@ -75,7 +75,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           showError('feedAlreadyAdded');
           return;
         }
-        return fetchRss(rssUrl).then((xmlData) => {
+
+        fetchRss(rssUrl).then((xmlData) => {
           const { feed, posts } = parseRSS(xmlData);
           const feedWithId = { ...feed, id: uuid.v4(), url: rssUrl };
           const postsWithId = posts.map((post) => ({
