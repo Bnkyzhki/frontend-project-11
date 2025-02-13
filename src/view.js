@@ -61,7 +61,7 @@ export const renderFeeds = (feeds) => {
       <h3>${title}</h3>
       <p>${description}</p>
     </li>
-  `
+  `,
     )
     .join('');
 };
@@ -70,7 +70,12 @@ export const renderPosts = (posts, viewedPosts) => {
   const { postContainer } = getElements();
   postContainer.innerHTML = posts
     .map(
-      ({ title, link, id, description }) => {
+      ({
+        title,
+        link,
+        id,
+        description,
+      }) => {
         const isViewed = viewedPosts.has(id);
         return `
       <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -78,7 +83,7 @@ export const renderPosts = (posts, viewedPosts) => {
         <button class="btn btn-outline-primary btn-sm preview-btn" data-id="${id}" data-description="${description}">${i18next.t('buttons.preview')}</button>
       </li>
     `;
-      }
+      },
     )
     .join('');
 };

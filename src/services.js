@@ -23,32 +23,28 @@ import fetchRss from './fetchRss.js';
 import parseRSS from './parseRSS.js';
 
 const checkNewPosts = () => {
-  const feedRequests = getFeeds().map(({ url, id: feedId }) =>
-    fetchRss(url)
-      .then((xmlData) => {
-        const { posts } = parseRSS(xmlData);
-        const existingPosts = getPosts();
-        const existingPostLinks = new Set(
-          existingPosts.map(({ link }) => link),
-        );
+  const feedRequests = getFeeds().map(({ url, id: feedId }) => fetchRss(url)
+    .then((xmlData) => {
+      const { posts } = parseRSS(xmlData);
+      const existingPosts = getPosts();
+      const existingPostLinks = new Set(existingPosts.map(({ link }) => link));
 
-        const newPosts = posts
-          .filter(({ link }) => !existingPostLinks.has(link))
-          .map((post) => ({
-            id: uuid.v4(),
-            feedId,
-            ...post,
-          }));
+      const newPosts = posts
+        .filter(({ link }) => !existingPostLinks.has(link))
+        .map((post) => ({
+          id: uuid.v4(),
+          feedId,
+          ...post,
+        }));
 
-        if (newPosts.length > 0) {
-          addPosts(newPosts);
-          renderPosts(getPosts(), getViewedPosts());
-        }
-      })
-      .catch((error) => {
-        console.error(`Ошибка при обновлении постов для ${url}:`, error);
-      }),
-  );
+      if (newPosts.length > 0) {
+        addPosts(newPosts);
+        renderPosts(getPosts(), getViewedPosts());
+      }
+    })
+    .catch((error) => {
+      console.error(`Ошибка при обновлении постов для ${url}:`, error);
+    }));
 
   Promise.all(feedRequests).finally(() => {
     setTimeout(checkNewPosts, 5000);
