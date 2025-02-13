@@ -1,5 +1,5 @@
-import en from './en';
-import ru from './ru';
+import en from './en.json';
+import ru from './ru.json';
 
 const resources = {
   en: { translation: en },
