@@ -68,15 +68,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     validateRssUrl(
       rssUrl,
       getFeeds().map((feed) => feed.url),
-    )
-      .then(() => {
-        clearError();
-        if (isFeedAlreadyAdded(rssUrl)) {
-          showError('feedAlreadyAdded');
-          return;
-        }
+    ).then(() => {
+      clearError();
+      if (isFeedAlreadyAdded(rssUrl)) {
+        showError('feedAlreadyAdded');
+        return;
+      }
 
-        fetchRss(rssUrl).then((xmlData) => {
+      fetchRss(rssUrl)
+        .then((xmlData) => {
           const { feed, posts } = parseRSS(xmlData);
           const feedWithId = { ...feed, id: uuid.v4(), url: rssUrl };
           const postsWithId = posts.map((post) => ({
@@ -94,11 +94,11 @@ document.addEventListener('DOMContentLoaded', async () => {
           toggleFeedsAndPostsVisibility(true);
           showSuccess();
           clearInput();
+        })
+        .catch((error) => {
+          showError(error.message || 'rssLoadError');
         });
-      })
-      .catch((error) => {
-        showError(error.message || 'rssLoadError');
-      });
+    });
   });
 
   document.addEventListener('click', (event) => {
