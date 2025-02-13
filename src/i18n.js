@@ -1,7 +1,7 @@
 import i18next from 'i18next';
 
-import enTranslations from './locales/en.json';
-import ruTranslations from './locales/ru.json';
+import enTranslations from './locales/en';
+import ruTranslations from './locales/ru';
 
 const initI18n = async () => {
   await i18next.init({

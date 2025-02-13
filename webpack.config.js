@@ -51,6 +51,10 @@ export default {
         test: /\.(png|jpg|jpeg|gif|ico)$/,
         type: 'asset/resource',
       },
+      {
+        test: /\.json$/,
+        type: 'json',
+      },
     ],
   },
 
@@ -84,3 +88,4 @@ export default {
     hot: false,
   },
 };
+

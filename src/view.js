@@ -69,7 +69,12 @@ export const renderFeeds = (feeds) => {
 export const renderPosts = (posts, viewedPosts) => {
   const { postContainer } = getElements();
   postContainer.innerHTML = posts
-    .map(({ title, link, id, description }) => {
+    .map(({
+       title, 
+       link, 
+       id, 
+       description 
+      }) => {
       const isViewed = viewedPosts.has(id);
       return `
       <li class="list-group-item d-flex justify-content-between align-items-center">
