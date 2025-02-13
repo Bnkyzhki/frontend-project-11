@@ -56,47 +56,52 @@ const checkNewPosts = () => {
   });
 };
 
-document.addEventListener('DOMContentLoaded', async () => {
-  await initI18n();
-  setYupLocale();
+document.addEventListener('DOMContentLoaded', () => {
+  initI18n().then(() => {
+    setYupLocale();
 
-  const form = document.getElementById('rssForm');
-  form.addEventListener('submit', (event) => {
-    event.preventDefault();
-    const rssUrl = document.getElementById('rssInput').value;
+    const form = document.getElementById('rssForm');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const rssUrl = document.getElementById('rssInput').value;
 
-    validateRssUrl(
-      rssUrl,
-      getFeeds().map((feed) => feed.url),
-    ).then(() => {
-      clearError();
-      if (isFeedAlreadyAdded(rssUrl)) {
-        showError('feedAlreadyAdded');
-        return;
-      }
+      validateRssUrl(
+        rssUrl,
+        getFeeds().map((feed) => feed.url),
+      )
+        .then(() => {
+          if (isFeedAlreadyAdded(rssUrl)) {
+            showError('feedAlreadyAdded');
+            return;
+          }
 
-      fetchRss(rssUrl)
-        .then((xmlData) => {
-          const { feed, posts } = parseRSS(xmlData);
-          const feedWithId = { ...feed, id: uuid.v4(), url: rssUrl };
-          const postsWithId = posts.map((post) => ({
-            id: uuid.v4(),
-            feedId: feedWithId.id,
-            ...post,
-          }));
+          fetchRss(rssUrl)
+            .then((xmlData) => {
+              const { feed, posts } = parseRSS(xmlData);
 
-          addFeed(feedWithId);
-          addPosts(postsWithId);
+              const feedWithId = { ...feed, id: uuid.v4(), url: rssUrl };
+              const postsWithId = posts.map((post) => ({
+                id: uuid.v4(),
+                feedId: feedWithId.id,
+                ...post,
+              }));
 
-          renderFeeds(getFeeds());
-          renderPosts(getPosts(), getViewedPosts());
+              addFeed(feedWithId);
+              addPosts(postsWithId);
 
-          toggleFeedsAndPostsVisibility(true);
-          showSuccess();
-          clearInput();
+              renderFeeds(getFeeds());
+              renderPosts(getPosts(), getViewedPosts());
+
+              toggleFeedsAndPostsVisibility(true);
+              showSuccess();
+              clearInput();
+            })
+            .catch((error) => {
+              showError(error.message || 'rssLoadError');
+            });
         })
-        .catch((error) => {
-          showError(error.message || 'rssLoadError');
+        .catch((err) => {
+          showError(err.message || 'rssLoadError');
         });
     });
   });
