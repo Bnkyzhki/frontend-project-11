@@ -61,7 +61,7 @@ export const renderFeeds = (feeds) => {
       <h3>${title}</h3>
       <p>${description}</p>
     </li>
-  `,
+  `
     )
     .join('');
 };
@@ -69,20 +69,17 @@ export const renderFeeds = (feeds) => {
 export const renderPosts = (posts, viewedPosts) => {
   const { postContainer } = getElements();
   postContainer.innerHTML = posts
-    .map(({
-       title, 
-       link, 
-       id, 
-       description 
-      }) => {
-      const isViewed = viewedPosts.has(id);
-      return `
+    .map(
+      ({ title, link, id, description }) => {
+        const isViewed = viewedPosts.has(id);
+        return `
       <li class="list-group-item d-flex justify-content-between align-items-center">
         <a href="${link}" target="_blank" class="${isViewed ? 'fw-normal' : 'fw-bold'}" data-id="${id}">${title}</a>
         <button class="btn btn-outline-primary btn-sm preview-btn" data-id="${id}" data-description="${description}">${i18next.t('buttons.preview')}</button>
       </li>
     `;
-    })
+      }
+    )
     .join('');
 };
 

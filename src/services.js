@@ -24,7 +24,8 @@ import parseRSS from './parseRSS.js';
 
 const checkNewPosts = () => {
   const feedRequests = getFeeds().map(({ url, id: feedId }) =>
-    fetchRss(url).then((xmlData) => {
+    fetchRss(url)
+      .then((xmlData) => {
         const { posts } = parseRSS(xmlData);
         const existingPosts = getPosts();
         const existingPostLinks = new Set(
