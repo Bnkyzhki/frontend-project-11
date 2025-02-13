@@ -1,6 +1,8 @@
 import i18next from 'i18next';
 import { markPostAsViewed } from './model.js';
 
+/* global bootstrap */
+
 const getElements = () => {
   const input = document.getElementById('rssInput');
   const errorFeedback = document.getElementById('errorFeedback');
