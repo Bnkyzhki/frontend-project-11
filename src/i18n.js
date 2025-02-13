@@ -1,5 +1,5 @@
 import i18next from 'i18next';
-import resources from './locales';
+import resources from './locales/index.js';
 
 const initI18n = async () => {
   await i18next.init({
