@@ -1,16 +1,11 @@
 import i18next from 'i18next';
-
-import enTranslations from './locales/en';
-import ruTranslations from './locales/ru';
+import resources from './locales';
 
 const initI18n = async () => {
   await i18next.init({
     lng: 'ru',
     fallbackLng: 'en',
-    resources: {
-      en: { translation: enTranslations },
-      ru: { translation: ruTranslations },
-    },
+    resources,
     interpolation: {
       escapeValue: false,
     },
