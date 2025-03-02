@@ -1,4 +1,15 @@
 export default (elements, i18next) => {
+  const {
+    input,
+    errorFeedback,
+    successFeedback,
+    feedsSection,
+    postsSection,
+    modalTitle,
+    modalBody,
+  } = elements;
+  /* global bootstrap */
+
   const renderFeeds = (feeds) => {
     elements.feedContainer.innerHTML = feeds
       .map(
@@ -42,42 +53,38 @@ export default (elements, i18next) => {
     if (postLink) postLink.classList.replace('fw-bold', 'fw-normal');
   };
 
-  const showModal = (title, description) => {
-    elements.modalTitle.textContent = title;
-    elements.modalBody.textContent = description;
-    const modalInstance = new bootstrap.Modal(
-      document.getElementById('postModal'),
-    );
-    modalInstance.show();
-  };
-
   return {
     renderFeeds,
     renderPosts,
     updatePostLinkStyle,
-    showModal,
     showError: (messageKey) => {
-      elements.input.classList.add('is-invalid');
-      elements.errorFeedback.textContent = i18next.t(`errors.${messageKey}`);
-      elements.errorFeedback.classList.remove('d-none');
+      input.classList.add('is-invalid');
+      errorFeedback.textContent = i18next.t(`errors.${messageKey}`);
+      errorFeedback.classList.remove('d-none');
     },
     showSuccess: () => {
-      elements.input.classList.add('is-valid');
-      elements.successFeedback.textContent = i18next.t('success.rssAdded');
-      elements.successFeedback.classList.remove('d-none');
+      input.classList.add('is-valid');
+      successFeedback.textContent = i18next.t('success.rssAdded');
+      successFeedback.classList.remove('d-none');
     },
     clearInput: () => {
-      elements.input.value = '';
-      elements.input.focus();
+      input.value = '';
+      input.focus();
     },
     clearError: () => {
-      elements.input.classList.remove('is-invalid');
-      elements.errorFeedback.textContent = '';
-      elements.errorFeedback.classList.add('d-none');
+      input.classList.remove('is-invalid');
+      errorFeedback.textContent = '';
+      errorFeedback.classList.add('d-none');
     },
     toggleContentVisibility: (isVisible) => {
-      elements.feedsSection.classList.toggle('d-none', !isVisible);
-      elements.postsSection.classList.toggle('d-none', !isVisible);
+      feedsSection.classList.toggle('d-none', !isVisible);
+      postsSection.classList.toggle('d-none', !isVisible);
+    },
+    showModal: (title, description) => {
+      modalTitle.textContent = title;
+      modalBody.textContent = description;
+      const modalInstance = new bootstrap.Modal(document.getElementById('postModal'));
+      modalInstance.show();
     },
   };
 };

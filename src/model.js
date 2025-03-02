@@ -30,13 +30,10 @@ export const markPostAsViewed = (postId) => {
 
 export const toggleContentVisibility = (isVisible) => {
   state.isContentVisible = isVisible;
-  listeners.forEach((listener) =>
-    listener('isContentVisible', state.isContentVisible),
-  );
+  listeners.forEach((listener) => listener('isContentVisible', state.isContentVisible));
 };
 
-export const isFeedAlreadyAdded = (url) =>
-  state.feeds.some((feed) => feed.url === url);
+export const isFeedAlreadyAdded = (url) => state.feeds.some((feed) => feed.url === url);
 export const getFeeds = () => state.feeds;
 export const getPosts = () => state.posts;
 export const getViewedPosts = () => state.viewedPosts;

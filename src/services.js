@@ -18,6 +18,8 @@ import validateRssUrl from './validator.js';
 import fetchRss from './fetchRss.js';
 import parseRSS from './parseRSS.js';
 
+/* global bootstrap */
+
 document.addEventListener('DOMContentLoaded', () => {
   initI18n().then((i18next) => {
     setYupLocale();
