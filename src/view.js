@@ -20,7 +20,7 @@ export default (elements, i18next) => {
           <h3>${title}</h3>
           <p>${description}</p>
         </li>
-      `
+      `,
       )
       .join('');
   };
@@ -51,7 +51,7 @@ export default (elements, i18next) => {
 
   const updatePostLinkStyle = (postId) => {
     const postLink = elements.postContainer.querySelector(
-      `a[data-id="${postId}"]`
+      `a[data-id="${postId}"]`,
     );
     if (postLink) postLink.classList.replace('fw-bold', 'fw-normal');
   };
@@ -91,4 +91,3 @@ export default (elements, i18next) => {
     },
   };
 };
-

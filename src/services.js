@@ -1,4 +1,4 @@
-import * as uuid from 'uuid'; 
+import * as uuid from 'uuid';
 import initI18n from './i18n.js';
 import setYupLocale from './yupConfig.js';
 import View from './view.js';
@@ -135,4 +135,3 @@ document.addEventListener('DOMContentLoaded', () => {
     checkNewPosts();
   });
 });
-
