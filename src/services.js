@@ -1,4 +1,4 @@
-import * as uuid from 'uuid';
+import * as uuid from 'uuid'; 
 import initI18n from './i18n.js';
 import setYupLocale from './yupConfig.js';
 import View from './view.js';
@@ -69,7 +69,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const { posts } = parseRSS(xmlData);
             const newPosts = posts
               .filter(({ link }) => !getPosts().some((p) => p.link === link))
-              .map((post) => ({ ...post, id: uuid.v4(), feedId }));
+              .map((post) => ({
+                ...post,
+                id: uuid.v4(),
+                feedId,
+              }));
 
             if (newPosts.length) addPosts(newPosts);
           })
@@ -96,7 +100,11 @@ document.addEventListener('DOMContentLoaded', () => {
           fetchRss(rssUrl)
             .then((xmlData) => {
               const { feed, posts } = parseRSS(xmlData);
-              const feedWithId = { ...feed, id: uuid.v4(), url: rssUrl };
+              const feedWithId = {
+                ...feed,
+                id: uuid.v4(),
+                url: rssUrl,
+              };
               const postsWithId = posts.map((post) => ({
                 ...post,
                 id: uuid.v4(),
@@ -127,3 +135,4 @@ document.addEventListener('DOMContentLoaded', () => {
     checkNewPosts();
   });
 });
+

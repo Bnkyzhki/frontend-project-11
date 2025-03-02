@@ -8,23 +8,26 @@ export default (elements, i18next) => {
     modalTitle,
     modalBody,
   } = elements;
+
   /* global bootstrap */
 
   const renderFeeds = (feeds) => {
-    elements.feedContainer.innerHTML = feeds
+    const { feedContainer } = elements;
+    feedContainer.innerHTML = feeds
       .map(
         ({ title, description }) => `
         <li class="list-group-item">
           <h3>${title}</h3>
           <p>${description}</p>
         </li>
-      `,
+      `
       )
       .join('');
   };
 
   const renderPosts = (posts, viewedPosts) => {
-    elements.postContainer.innerHTML = posts
+    const { postContainer } = elements;
+    postContainer.innerHTML = posts
       .map(({ title, link, id, description }) => {
         const isViewed = viewedPosts.has(id);
         return `
@@ -48,7 +51,7 @@ export default (elements, i18next) => {
 
   const updatePostLinkStyle = (postId) => {
     const postLink = elements.postContainer.querySelector(
-      `a[data-id="${postId}"]`,
+      `a[data-id="${postId}"]`
     );
     if (postLink) postLink.classList.replace('fw-bold', 'fw-normal');
   };
@@ -88,3 +91,4 @@ export default (elements, i18next) => {
     },
   };
 };
+
