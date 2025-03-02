@@ -14,6 +14,7 @@ const initI18n = async () => {
       escapeValue: false,
     },
   });
+  return i18next;
 };
 
 export default initI18n;

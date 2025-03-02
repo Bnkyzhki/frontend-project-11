@@ -1,36 +1,43 @@
-import onChange from 'on-change';
+const state = {
+  feeds: [],
+  posts: [],
+  viewedPosts: new Set(),
+  isContentVisible: false,
+};
 
-export const state = onChange(
-  {
-    feeds: [],
-    posts: [],
-    viewedPosts: new Set(),
-  },
-  () => {},
-);
+const listeners = [];
+
+export const addListener = (listener) => {
+  listeners.push(listener);
+};
 
 export const addFeed = (feed) => {
-  state.feeds.push(feed);
+  state.feeds = [...state.feeds, feed];
+  listeners.forEach((listener) => listener('feeds', state.feeds));
 };
 
 export const addPosts = (posts) => {
-  const existingPostLinks = state.posts.map((post) => post.link);
-  const newPosts = posts.filter(
-    (post) => !existingPostLinks.includes(post.link),
-  );
-  state.posts.push(...newPosts);
+  const existingPostLinks = new Set(state.posts.map((post) => post.link));
+  const newPosts = posts.filter((post) => !existingPostLinks.has(post.link));
+  state.posts = [...state.posts, ...newPosts];
+  listeners.forEach((listener) => listener('posts', state.posts));
 };
 
 export const markPostAsViewed = (postId) => {
   state.viewedPosts.add(postId);
-  const postElement = document.querySelector(`a[data-id="${postId}"]`);
-  if (postElement) {
-    postElement.classList.remove('fw-bold');
-    postElement.classList.add('fw-normal');
-  }
+  listeners.forEach((listener) => listener('viewedPosts', state.viewedPosts));
 };
 
-export const isFeedAlreadyAdded = (url) => state.feeds.some((feed) => feed.url === url);
+export const toggleContentVisibility = (isVisible) => {
+  state.isContentVisible = isVisible;
+  listeners.forEach((listener) =>
+    listener('isContentVisible', state.isContentVisible),
+  );
+};
+
+export const isFeedAlreadyAdded = (url) =>
+  state.feeds.some((feed) => feed.url === url);
 export const getFeeds = () => state.feeds;
 export const getPosts = () => state.posts;
 export const getViewedPosts = () => state.viewedPosts;
+export const getContentVisibility = () => state.isContentVisible;
