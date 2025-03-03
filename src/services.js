@@ -60,11 +60,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    const { 
-      showError, 
-      showSuccess, 
-      clearInput, 
-      clearError 
+    const {
+      showError,
+      showSuccess,
+      clearInput,
+      clearError,
     } = view;
 
     const checkNewPosts = () => {
