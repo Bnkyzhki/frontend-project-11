@@ -60,7 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    const { showError, showSuccess, clearInput, clearError } = view;
+    const { 
+      showError, 
+      showSuccess, 
+      clearInput, 
+      clearError 
+    } = view;
 
     const checkNewPosts = () => {
       getFeeds().forEach(({ url, id: feedId }) => {
