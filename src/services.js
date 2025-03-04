@@ -1,7 +1,7 @@
 import * as uuid from 'uuid';
 import initI18n from './i18n.js';
 import setYupLocale from './yupConfig.js';
-import View from './view.js';
+import view from './view.js';
 import {
   addFeed,
   addPosts,
@@ -38,22 +38,22 @@ document.addEventListener('DOMContentLoaded', () => {
       modalBody: document.getElementById('postModalBody'),
     };
 
-    const view = View(elements, i18next);
+    const viewInstance = view(elements, i18next);
     view.toggleContentVisibility(getContentVisibility());
 
     addListener((path, value) => {
       switch (path) {
         case 'feeds':
-          view.renderFeeds(value);
+          viewInstance.renderFeeds(value);
           break;
         case 'posts':
-          view.renderPosts(value, getViewedPosts());
+          viewInstance.renderPosts(value, getViewedPosts());
           break;
         case 'viewedPosts':
-          view.renderPosts(getPosts(), value);
+          viewInstance.renderPosts(getPosts(), value);
           break;
         case 'isContentVisible':
-          view.toggleContentVisibility(value);
+          viewInstance.toggleContentVisibility(value);
           break;
         default:
           break;
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
       showSuccess,
       clearInput,
       clearError,
-    } = view;
+    } = viewInstance;
 
     const checkNewPosts = () => {
       getFeeds().forEach(({ url, id: feedId }) => {
@@ -133,7 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const postId = target.dataset.id;
         const { description } = target.dataset;
         markPostAsViewed(postId);
-        view.showModal(target.previousElementSibling.textContent, description);
+        viewInstance.showModal(target.previousElementSibling.textContent, description);
       }
     });
 
